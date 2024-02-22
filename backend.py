@@ -6,12 +6,14 @@ class Chatbot:
         openai.api_key = "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"
 
     def get_response(self, user_input):
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=user_input,
-            max_tokens=1000, # Number of words
-            temperature=0.5  # 0-1. 0 being most accurate and 1 being random.
-        ).choices[0].text # Get first item from the choice list
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_input}
+            ],
+            max_tokens=1000 # Limit the number of words.
+        ).choices[0].message['content']  # Extract the response from the API output
         return response
 
 
