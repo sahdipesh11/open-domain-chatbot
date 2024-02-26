@@ -1,9 +1,14 @@
 import openai
+import os
 
 
 class Chatbot:
     def __init__(self):
-        openai.api_key = "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"
+        openai.api_key = os.getenv('OPENAI_API_KEY')
+
+        if openai.api_key is None:
+            raise ValueError("OPENAI_API_KEY environment variable not set.")
+
 
     def get_response(self, user_input):
         response = openai.ChatCompletion.create(
